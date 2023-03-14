@@ -34,9 +34,20 @@ extension ReminderListViewController {
         let symbolName = reminder.isComplete ? "circle.fill" : "circle"
         let symbolConfiguration = UIImage.SymbolConfiguration(textStyle: .title1)
         let image = UIImage(systemName: symbolName, withConfiguration: symbolConfiguration)
-        let button = UIButton()
+        let button = ReminderDoneButton()
+        button.addTarget(self, action: #selector(didPressDoneButton(_:)), for: .touchUpInside)
         button.setImage(image, for: .normal)
+        button.id = reminder.id
         return UICellAccessory.CustomViewConfiguration(customView: button, placement: .leading(displayed: .always))
+    }
+
+    // MARK: - Methods
+
+    func completeReminder(withId id: Reminder.ID) {
+        var reminder = reminder(withId: id)
+        reminder.isComplete.toggle()
+        updateReminder(reminder)
+        updateSnapshot(reloading: [id])
     }
 
     func reminder(withId id: Reminder.ID) -> Reminder {
@@ -47,5 +58,15 @@ extension ReminderListViewController {
     func updateReminder(_ reminder: Reminder) {
         let index = reminders.indexOfReminder(withId: reminder.id)
         reminders[index] = reminder
+    }
+
+    func updateSnapshot(reloading ids: [Reminder.ID] = []) {
+        var snapshot = Snapshot()
+        snapshot.appendSections([0])
+        snapshot.appendItems(reminders.map { $0.id })
+
+        if !ids.isEmpty { snapshot.reloadItems(ids) }
+
+        dataSource.apply(snapshot)
     }
 }
