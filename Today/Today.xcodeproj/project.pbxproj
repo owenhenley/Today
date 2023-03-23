@@ -89,9 +89,10 @@
 				3E103DF129B89C160096DCB3 /* AppDelegate.swift */,
 				3E103DF329B89C160096DCB3 /* SceneDelegate.swift */,
 				3E103E0629B8C2EE0096DCB3 /* Models */,
-				3E103E0929B8C43D0096DCB3 /* ViewController */,
-				3E103E0529B8C1D30096DCB3 /* Views */,
+				3E345ADE29CC8EF8004DE571 /* DetailViewController */,
+				3E103E0929B8C43D0096DCB3 /* ListViewController */,
 				3E345AD329CB6E53004DE571 /* ContentViews */,
+				3E103E0529B8C1D30096DCB3 /* Views */,
 				3E2AC17929BB3D2B009FB798 /* Helper */,
 				3E103DFA29B89C180096DCB3 /* Assets.xcassets */,
 				3E103DFC29B89C180096DCB3 /* LaunchScreen.storyboard */,
@@ -104,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				3E2AC17A29BB55EF009FB798 /* IB */,
-				3EA7C1FF29C1292C00AFEF89 /* ReminderDoneButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -114,28 +114,25 @@
 			children = (
 				3E103E0729B8C2FC0096DCB3 /* Reminder.swift */,
 				3E103E0A29B906130096DCB3 /* Date+Today.swift */,
+				3EC8155929B922E40056660A /* UIColor+Today.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		3E103E0929B8C43D0096DCB3 /* ViewController */ = {
+		3E103E0929B8C43D0096DCB3 /* ListViewController */ = {
 			isa = PBXGroup;
 			children = (
+				3EA7C1FF29C1292C00AFEF89 /* ReminderDoneButton.swift */,
 				3E103DF529B89C160096DCB3 /* ReminderListViewController.swift */,
 				3EA7C20129C12B2700AFEF89 /* ReminderListViewController+Actions.swift */,
 				3EC8155729B914BB0056660A /* ReminderListViewController+DataSource.swift */,
-				3E60D74B29C33487003FF94B /* ReminderViewController.swift */,
-				3E345AD129CB6C42004DE571 /* ReminderViewController+CellConfiguration.swift */,
-				3E550D9229C4933600EB78D5 /* ReminderViewController+Row.swift */,
-				3E345ACB29CB3EDA004DE571 /* ReminderViewController+Section.swift */,
 			);
-			path = ViewController;
+			path = ListViewController;
 			sourceTree = "<group>";
 		};
 		3E2AC17929BB3D2B009FB798 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				3EC8155929B922E40056660A /* UIColor+Today.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -158,6 +155,17 @@
 				3E345ADA29CC5C02004DE571 /* TextViewContentView.swift */,
 			);
 			path = ContentViews;
+			sourceTree = "<group>";
+		};
+		3E345ADE29CC8EF8004DE571 /* DetailViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3E60D74B29C33487003FF94B /* ReminderViewController.swift */,
+				3E345AD129CB6C42004DE571 /* ReminderViewController+CellConfiguration.swift */,
+				3E550D9229C4933600EB78D5 /* ReminderViewController+Row.swift */,
+				3E345ACB29CB3EDA004DE571 /* ReminderViewController+Section.swift */,
+			);
+			path = DetailViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

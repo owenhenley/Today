@@ -8,6 +8,15 @@
 import UIKit
 
 class DatePickerContentView: UIView, UIContentView {
+    struct Configuration: UIContentConfiguration {
+        var date = Date.now
+        var onChange: (Date) -> Void = { _ in }
+        
+        func makeContentView() -> UIView & UIContentView {
+            return DatePickerContentView(self)
+        }
+    }
+    
     let datePicker = UIDatePicker()
     var configuration: UIContentConfiguration {
         didSet {
@@ -27,25 +36,14 @@ class DatePickerContentView: UIView, UIContentView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func didPick(_ sender: UIDatePicker) {
-        guard let configuration = configuration as? DatePickerContentView.Configuration else { return }
-        configuration.onChange(sender.date)
-    }
-    
     func configure(configuration: UIContentConfiguration) {
         guard let configuration = configuration as? Configuration else { return }
         datePicker.date = configuration.date
     }
-}
-
-extension DatePickerContentView {
-    struct Configuration: UIContentConfiguration {
-        var date = Date.now
-        var onChange: (Date) -> Void = { _ in }
-        
-        func makeContentView() -> UIView & UIContentView {
-            return DatePickerContentView(self)
-        }
+    
+    @objc private func didPick(_ sender: UIDatePicker) {
+        guard let configuration = configuration as? DatePickerContentView.Configuration else { return }
+        configuration.onChange(sender.date)
     }
 }
 

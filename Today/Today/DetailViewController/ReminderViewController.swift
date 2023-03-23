@@ -38,21 +38,31 @@ class ReminderViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
+        dataSource = DataSource(collectionView: collectionView) { (collectionView: UICollectionView,
+                                                                   indexPath: IndexPath,
+                                                                   itemIdentifier: Row) in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                for: indexPath,
+                                                                item: itemIdentifier)
+        }
 
         if #available(iOS 16, *) {
             navigationItem.style = .navigator
         }
+
         navigationItem.title = NSLocalizedString("Reminder", comment: "Reminder view controller title")
         navigationItem.rightBarButtonItem = editButtonItem
 
         updateSnapshotForViewing()
     }
 
-    private func setup() {
-        let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
-        dataSource = DataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Row) in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if editing {
+            prepareForEditing()
+        } else {
+            prepareForViewing()
         }
     }
 
@@ -76,31 +86,16 @@ class ReminderViewController: UICollectionViewController {
         cell.tintColor = .todayPrimaryTint
     }
 
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        if editing {
-            updateSnapshotForEditing()
-        } else {
-            updateSnapshotForViewing()
-        }
-    }
-
-    private func prepareForViewing() {
-        navigationItem.leftBarButtonItem = nil
-        if workingReminder != reminder {
-            reminder = workingReminder
-        }
-        updateSnapshotForViewing()
-    }
-
-    private func prepareForEditing() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didCancelEdit))
-        updateSnapshotForEditing()
-    }
-
     @objc func didCancelEdit() {
         workingReminder = reminder
         setEditing(false, animated: true)
+    }
+
+    private func prepareForEditing() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                           target: self,
+                                                           action: #selector(didCancelEdit))
+        updateSnapshotForEditing()
     }
     
     private func updateSnapshotForEditing() {
@@ -110,6 +105,14 @@ class ReminderViewController: UICollectionViewController {
         snapshot.appendItems([.header(Section.date.name), .editableDate(reminder.dueDate)], toSection: .date)
         snapshot.appendItems([.header(Section.notes.name), .editableText(reminder.notes)], toSection: .notes)
         dataSource.apply(snapshot)
+    }
+
+    private func prepareForViewing() {
+        navigationItem.leftBarButtonItem = nil
+        if workingReminder != reminder {
+            reminder = workingReminder
+        }
+        updateSnapshotForViewing()
     }
 
     private func updateSnapshotForViewing() {

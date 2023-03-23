@@ -8,7 +8,7 @@
 import Foundation
 
 struct Reminder: Equatable, Identifiable {
-    let id = UUID().uuidString
+    var id: String = UUID().uuidString
     var title: String
     var dueDate: Date
     var notes: String? = nil
@@ -23,7 +23,6 @@ extension [Reminder] {
         return index
     }
 }
-
 
 #if DEBUG
 extension Reminder {
